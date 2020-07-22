@@ -26,3 +26,21 @@
 #         Configure 'sugoi' as 'oniyabai'
 #         Configure 'foo' as 'iihanashi'
 #         Configure 'hoge' as 'uhyo-'
+class Args
+  def calc(str, num_1, num_2 = num_1)
+    string = str.to_s * num_1
+    (1..num_2).map { string }
+  end
+
+  def count_object(array: [], keyword:)
+    array.count(keyword)
+  end
+
+  def configure(benri:, sugoi:, **options)
+    option_keywords = options.select { |k, _| k.match(/^c_/) }
+    new_option_keywords = option_keywords.each_with_object({}) { |arr, hash| hash[arr[0].to_s.delete("c_").to_sym] = arr[1] }.sort
+    keywords = { benri: benri, sugoi: sugoi }.to_a
+    new_option_keywords.each { |arr| keywords << arr }
+    keywords.each { |k| puts "Configure '#{k[0]}' as '#{k[1]}'" }
+  end
+end
